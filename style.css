@@ -1,0 +1,299 @@
+:root {
+    --grayish-blue: hsl(237, 18%, 59%);
+    --soft-red: hsl(345, 95%, 68%);
+    --darker-soft-red: hsl(344, 62%, 57%);
+    --white: hsl(0, 0%, 100%);
+    --dark-desaturated-blue: hsl(236, 21%, 26%);
+    --darker-desaturated-blue: hsl(240, 21%, 22%);
+    --very-dark-blue: hsl(235, 16%, 14%);
+    --blackish-blue: hsl(234, 17%, 12%);
+    --height: 5rem;
+    --large-number-size: 5em;
+
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Red Hat Text", sans-serif;
+    font-size: 16px;
+    
+    @media (max-width: 980px) {
+        font-size: 0.8rem;
+    }
+
+    @media (max-width: 980px) {
+        font-size: 10px;
+
+        --height: 3.5rem;
+    }
+}
+
+body {
+    background-color: var(--very-dark-blue);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background-image: url("images/pattern-hills.svg"), url("images/bg-stars.svg");
+    background-repeat: no-repeat;
+    background-position: bottom right, top center;
+    background-size: 100%, cover;
+
+    @media (min-width: 1440px) {
+    }
+    
+    @media (max-width: 1439px) {
+        background-size: 1440px auto, cover;
+        background-position: bottom right 20%, top center;
+    }
+}
+
+main {
+    display: grid;
+}
+
+.background {
+    direction: rtl;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100svw;
+    z-index: -1;
+    overflow: hidden;
+
+
+    & > img {
+        min-width: 1440px;
+        width: 100%;
+        background-attachment: fixed;
+    }
+
+    & > img:first-child {
+        background-position: center;
+        min-height: 80%;
+        background-size: cover;
+    }
+
+    & > img:last-child {
+        background-position: bottom;
+        height: auto;
+        width: 100%;
+        min-height: 20%;
+        position: absolute;
+    }
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: var(--white);
+    font-weight: 700;
+    letter-spacing: 0.6rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 8rem 0;
+
+    @media (max-width: 980px) {
+        font-size: 2rem;
+        margin-top: 16rem;
+    }
+}
+
+.flip-clock{
+    max-width: 90vw;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+
+    margin: 0 auto;
+    color: var(--grayish-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+
+    @media (max-width: 980px) {
+        width: 95vw;
+        gap: 5px;
+    }
+}
+
+.clock-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.box-name {
+    justify-content: center;
+    font-size: 1rem;   
+    font-weight: 700;
+    display: flex;
+    margin-top: 1rem;
+
+    @media (max-width: 980px) {
+        margin-top: 1.5rem;
+        font-size: 0.7rem;
+    }
+}
+
+.flip-box {
+
+    display: inline-flex;
+    flex-direction: column;
+    align-content: center;
+
+    &::before {
+        content: "";
+        font-size: var(--large-number-size);
+        position: absolute;
+        aspect-ratio: 1;
+        z-index: -1;
+        width: 2em;
+        translate: 0 6px;
+        background-color: var(--blackish-blue);
+        border-radius: 6px;
+    }
+
+    @media (max-width: 980px) {
+        --large-number-size: 3.5em;
+    }
+
+}
+
+.box-top-before,
+.box-top-after,
+.box-bottom,
+.box-bottom-new {
+
+    height: var(--height);
+    line-height: calc(var(--height) * 2);
+    width: 2em;
+    font-size: var(--large-number-size);
+    font-weight: 700;
+    display: flex;
+    padding-left: 0.1em;
+    overflow: hidden;
+    
+}
+
+.box-top-before {
+    position: absolute;
+    color: var(--darker-soft-red);
+    background-color: var(--darker-desaturated-blue);
+    justify-content: center;
+    border-radius: 6px 6px 0 0;
+    transform-origin: bottom;
+    z-index: 1;
+}
+
+.box-top-after {
+    position: absolute;
+    color: var(--darker-soft-red);
+    background-color: var(--darker-desaturated-blue);
+    justify-content: center;
+    border-radius: 6px 6px 0 0;
+    transform-origin: bottom;
+    z-index: 2;
+}
+.box-bottom {
+    margin-top: var(--height);
+    color: var(--soft-red);
+    background-color: var(--dark-desaturated-blue);
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0 0 6px 6px;
+}
+
+.box-bottom-new {
+    position: absolute;
+    margin-top: calc(var(--height) - 1q);
+    color: var(--soft-red);
+    background-color: var(--dark-desaturated-blue);
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: 0 0 6px 6px;
+    transform: rotateX(90deg);
+    transform-origin: top;
+    padding-left: calc(0.1em - 1q);
+}
+
+.flip-animation{
+    & .box-top-after {
+        animation: flip-top 250ms ease-in forwards;
+    }
+
+    & .box-bottom-new {
+        animation: flip-bottom 250ms ease-out 250ms forwards;
+    }
+}
+
+.cutout {
+    position: absolute;
+    z-index: 2;
+    translate: 0 var(--height) ;
+    width: calc(var(--large-number-size) * 2);
+    border-top: 1q solid var(--very-dark-blue);
+    background-color: var(--very-dark-blue);
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 1em;
+        border-radius: 50%;
+        background-color: var(--very-dark-blue);
+        aspect-ratio: 1;
+        translate: -0.5em -0.5em;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 1em;
+        border-radius: 50%;
+        background-color: var(--very-dark-blue);
+        aspect-ratio: 1;
+        translate: calc(var(--large-number-size) * 2 - 0.5em) -0.5em;
+    }
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 3rem;
+
+    & a:nth-child(2) {
+        margin: 0 2em;
+    }
+
+    & svg {
+        fill: currentColor;
+        color: var(--grayish-blue);
+        transition: color 175ms ease-in;
+
+        &:hover {
+            color: var(--soft-red);
+            transition: color 175ms ease-out;
+        }
+    }
+}
+
+@keyframes flip-top {
+    100% {
+        transform: rotateX(90deg);
+    }
+}
+
+@keyframes flip-bottom {
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+@font-face {
+    font-family: "Red Hat Text";
+    src: url(Font/RedHatText-VariableFont_wght.ttf);
+}
