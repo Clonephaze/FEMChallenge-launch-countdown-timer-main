@@ -30,7 +30,7 @@ setInterval(() => {
       }
     }
   }
-}, 1000);
+}, 950);
 
 function updateBox(boxId, maxValue) {
     const box = document.getElementById(boxId);
