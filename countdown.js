@@ -47,20 +47,25 @@ function updateBox(boxId, maxValue) {
     // Convert newValue to a string and pad it with zeros to ensure it always has two digits
     newValue = newValue.toString().padStart(2, '0');
   
-    // Remove the existing 'animationend' event listener
     const oldBox = box.cloneNode(true);
     box.parentNode.replaceChild(oldBox, box);
   
     oldBox.classList.add('flip-animation');
+    oldBox.querySelector('.box-top-before').textContent = (newValue === '00' ? maxValue - 1 : parseInt(newValue) - 1).toString().padStart(2, '0');
   
-    // After the animation ends, update the numbers and remove the animation class
+
     oldBox.addEventListener('animationend', () => {
-      oldBox.querySelector('.box-top-before').textContent = newValue;
-      oldBox.querySelector('.box-top-after').textContent = (newValue === '00' ? maxValue - 1 : parseInt(newValue) - 1).toString().padStart(2, '0');
-      oldBox.querySelector('.box-bottom').textContent = (newValue === '00' ? maxValue - 1 : parseInt(newValue) - 1).toString().padStart(2, '0');
-      oldBox.querySelector('.box-bottom-new').textContent = (newValue === '01' ? maxValue - 1 : parseInt(newValue) - 2).toString().padStart(2, '0');
-      oldBox.classList.remove('flip-animation');
-    });
-  }
+      return new Promise((resolve) => {
+        setTimeout(() => {
+            oldBox.querySelector('.box-top-after').textContent = (newValue === '00' ? maxValue - 1 : parseInt(newValue) - 1).toString().padStart(2, '0');
+            oldBox.querySelector('.box-bottom-new').textContent = (newValue === '00' || newValue === '01' ? maxValue - 1 : parseInt(newValue) - 2).toString().padStart(2, '0');
+            resolve();
+        }, 250);
+    }).then(() => {
+        oldBox.classList.remove('flip-animation');
+          oldBox.querySelector('.box-bottom').textContent = (newValue === '00' ? maxValue - 1 : parseInt(newValue) - 1).toString().padStart(2, '0');
+      });
+  });
+}
   
   
